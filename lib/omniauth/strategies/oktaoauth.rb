@@ -5,8 +5,6 @@ require 'omniauth-oauth2'
 module OmniAuth
   module Strategies
     class Oktaoauth < OmniAuth::Strategies::OAuth2
-
-
       DEFAULT_SCOPE = %[openid profile email].freeze
 
       option :name, 'oktaoauth'
@@ -70,6 +68,8 @@ module OmniAuth
 
       def request_phase
         super
+      rescue URI::InvalidURIError => e
+        fail!('Invalid oauth client config', e)
       end
 
       def callback_phase
